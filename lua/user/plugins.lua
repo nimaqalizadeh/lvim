@@ -92,14 +92,105 @@ lvim.plugins = {
   }
 },
   {"christoomey/vim-tmux-navigator"},
-  {"mfussenegger/nvim-dap-python"},
-  {"mfussenegger/nvim-dap"},
-  {"rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap"},
-  {"ChristianChiarulli/swenv.nvim"},
   {"stevearc/dressing.nvim"},
-  {"nvim-neotest/neotest"},
-  {"nvim-neotest/neotest-python"},
-}
+
+    {
+      "folke/tokyonight.nvim",
+      config = function()
+        require("user.theme").tokyonight()
+        vim.cmd [[colorscheme tokyonight]]
+      end,
+      cond = function()
+        local _time = os.date "*t"
+        return (_time.hour >= 9 and _time.hour < 17) and lvim.builtin.time_based_themes
+      end,
+    },
+    {
+      "rose-pine/neovim",
+      name = "rose-pine",
+      config = function()
+        require("user.theme").rose_pine()
+        lvim.colorscheme = "rose-pine"
+      end,
+      cond = function()
+        local _time = os.date "*t"
+        return (_time.hour >= 1 and _time.hour < 9) and lvim.builtin.time_based_themes
+        -- return false
+      end,
+    },
+    {
+      "catppuccin/nvim",
+      name = "catppuccin",
+      config = function()
+        require("user.theme").catppuccin()
+        local _time = os.date "*t"
+        if (_time.hour >= 17 and _time.hour < 21) and lvim.builtin.time_based_themes then
+          lvim.colorscheme = "catppuccin-mocha"
+        end
+      end,
+    },
+    {
+      "rebelot/kanagawa.nvim",
+      config = function()
+        require("user.theme").kanagawa()
+        lvim.colorscheme = "kanagawa"
+      end,
+      cond = function()
+        local _time = os.date "*t"
+        return ((_time.hour >= 21 and _time.hour < 24) or (_time.hour >= 0 and _time.hour < 1))
+          and lvim.builtin.time_based_themes
+      end,
+    },
+
+{
+      "leoluz/nvim-dap-go",
+      config = function()
+        require("dap-go").setup()
+      end,
+      ft = { "go", "gomod" },
+      event = { "BufRead", "BufNew" },
+      enabled = lvim.builtin.go_programming.active,
+    },
+    {
+      "AckslD/swenv.nvim",
+      enabled = lvim.builtin.python_programming.active,
+      ft = "python",
+      event = { "BufRead", "BufNew" },
+    },
+    {
+      "mfussenegger/nvim-dap-python",
+      config = function()
+        local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/")
+        require("dap-python").setup(mason_path .. "packages/debugpy/venv/bin/python")
+        require("dap-python").test_runner = "pytest"
+      end,
+      ft = "python",
+      event = { "BufRead", "BufNew" },
+      enabled = lvim.builtin.python_programming.active,
+    },
+    {
+      "mxsdev/nvim-dap-vscode-js",
+      ft = {
+        "javascript",
+        "javascriptreact",
+        "javascript.jsx",
+        "typescript",
+        "typescriptreact",
+        "typescript.tsx",
+      },
+      lazy = true,
+      event = { "BufReadPre", "BufNew" },
+      config = function()
+        require("dap-vscode-js").setup {
+          debugger_path = vim.fn.stdpath "data" .. "/mason/packages/js-debug-adapter",
+          debugger_cmd = { "js-debug-adapter" },
+          adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
+        }
+      end,
+      enabled = lvim.builtin.web_programming.active,
+    },
+
 }
 
 -- automatically install python syntax highlighting
+
