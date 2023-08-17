@@ -20,10 +20,11 @@ Restart your pc.
 ## Recommended fonts
 + My preferred nerd font is [FiraCode](https://www.nerdfonts.com/font-downloads)
   Download Fira code, then install it:
-  ```bash
+  
+```bash
 unzip FiraCode.zip -d FiraCode
 sudo mv FiraCode /usr/share/fonts/truetype
-  ```
+```
 Now close your terminal and open it again, then:
 + `settings` > `Manage Profile` > `Profiles` > `+ New` > `Appearance` > `Choose`
 choose `FiraCode Nerd Font Mono` ,
