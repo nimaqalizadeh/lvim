@@ -92,3 +92,5 @@ Now install Lunarvim:
 LV_BRANCH='release-1.3/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh)
 ```
 After that clone the confing and put them in `~/.config/lvim`.
+
+Use `MasonInstall debugpy` in command mode for activating python debugging. In `~/.local/share/lvim/mason/packages` you should see `debugpy` directory.
